@@ -1,0 +1,54 @@
+peso=(21.50,18.95,18.55,19.40,19.15,22.35,22.90,22.20,23.10)
+n = len(peso)
+import statistics
+media = statistics.mean(peso)
+desv = statistics.stdev(peso)
+#print(n)
+#print(media)
+#print(desv)
+from scipy import stats
+t0_25 = stats.t(df = 7).ppf(0.975)
+#print(t0_25)
+import math
+li = media - t0_25*(desv/math.sqrt(n))
+ls = media + t0_25*(desv/math.sqrt(n))
+#print(li)
+#print(ls)
+
+from tabulate import tabulate
+
+# Imprime tabla a partir de los datos de 
+# una lista de listas:
+
+rios1 = [['Numero de datos', n],
+         ['Desviacion Estandar', desv],
+         ['Media', media],
+         ['Desviacion Estandar', desv],
+         ['Limite inferior', li],
+         ['Limite Superior', ls]]
+        
+print(tabulate(rios1))
+
+# Graficando Normal 003
+import scipy.stats as ss
+import matplotlib.pyplot as plt
+import numpy as np
+from numpy import random
+import scipy.stats as stats
+from matplotlib import pyplot as plt
+plt.plot(li,0, marker="o", color="red")
+plt.plot(ls,0, marker="o", color="red")
+mu, sigma = (ls-1.5),1 # media y desvio estandar
+normal = stats.norm(mu, sigma)
+x = np.linspace(normal.ppf(0.01),
+                normal.ppf(0.99), 100)
+plt.axvline(li)
+plt.axvline(ls)
+fp = normal.pdf(x) # Función de Probabilidad
+plt.plot(x, fp)
+plt.title('Distribución Normal')
+plt.ylabel('probabilidad')
+plt.xlabel('valores')
+
+
+plt.show()
